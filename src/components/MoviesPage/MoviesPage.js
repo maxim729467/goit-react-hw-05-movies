@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { Link, useRouteMatch } from "react-router-dom";
+import queryString from "query-string";
 import { fetchMoviesByName } from "../../fetch-service";
 import styles from "./MoviesPage.module.css";
 import CameraRollRoundedIcon from "@material-ui/icons/CameraRollRounded";
@@ -16,25 +17,12 @@ export default function MoviesPage({ loader }) {
   const history = useHistory();
 
   useEffect(() => {
-    const key = location.search.split("=")[0].slice(1);
-    const query = location.search.split("=")[1];
+    const parsedSearchParams = queryString.parse(location.search);
 
-    if (location.search && key === "query") {
-      const getMovies = async function () {
-        try {
-          setLoading(true);
-          const res = await fetchMoviesByName(query);
-          setSearchedMovie(res.data.results);
-        } catch (error) {
-          setError(error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      getMovies();
+    if (Object.keys(parsedSearchParams).length !== 0) {
+      getMovies(parsedSearchParams.query);
     }
-  }, [location.search]);
+  }, []);
 
   const onChange = function (e) {
     setMovieName(e.target.value);
@@ -46,18 +34,22 @@ export default function MoviesPage({ loader }) {
     if (query.length === 0) {
       return;
     }
-    const getMovies = async function () {
-      try {
-        const res = await fetchMoviesByName(query);
-        setSearchedMovie(res.data.results);
-      } catch (error) {
-        setError(error);
-      }
-    };
 
-    getMovies();
+    getMovies(query);
     history.push({ ...location, search: `query=${query}` });
     setMovieName("");
+  }
+
+  async function getMovies(query) {
+    try {
+      setLoading(true);
+      const res = await fetchMoviesByName(query);
+      setSearchedMovie(res.data.results);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
