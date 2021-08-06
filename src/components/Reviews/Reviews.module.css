@@ -1,0 +1,15 @@
+.reviewSection {
+  margin-top: 20px;
+}
+
+.item {
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid black;
+
+  padding: 10px;
+}
+
+.item:not(:last-child) {
+  margin-bottom: 10px;
+}

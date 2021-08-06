@@ -1,0 +1,37 @@
+.header {
+  color: teal;
+  text-align: center;
+
+  margin-bottom: 30px;
+}
+
+.item:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+.link {
+  font-size: 20px;
+  color: rgba(1, 2, 2, 0.89);
+
+  display: flex;
+  align-items: center;
+
+  transition: all 250ms ease;
+}
+
+.link:hover,
+.link:focus {
+  color: rgba(238, 137, 23, 0.874);
+}
+
+.list {
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 7px 12px -1px rgba(0, 0, 0, 0.77);
+}
+
+.name {
+  margin-left: 8px;
+}
